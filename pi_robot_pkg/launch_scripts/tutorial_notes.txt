@@ -1,0 +1,48 @@
+# To activate a joint for hardware controle and movement you have to
+1) Define a joint that isnt fixed un urdf
+
+<joint name="left_shoulder_forward_joint" type="revolute">
+    	<parent link="left_shoulder_link"/>
+    	<child link="left_shoulder_forward_link"/>
+    	<origin xyz="0 0.025 0" rpy="0 0 0"/>
+       	<limit lower="-1.57" upper="1.57" effort="10" velocity="3"/>
+        <axis xyz="0 0 1"/>
+	</joint>
+
+2) Define a transmision with the name of the joint in urdf
+
+
+<transmission name="tran4">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_shoulder_forward_joint">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor4">
+            <hardwareInterface>EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+    
+¡¡¡¡¡¡ If the joint is defined as revolute but the limits are 3.14 and -3.14 change them to continouous, otherwise it doesnt work. !!!!!!
+    
+3) Define in the yaml the new transmision controller with name xxx__position_controller (left_shoulder_forward_joint_position_controller):
+
+left_shoulder_forward_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_shoulder_forward_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+4) Start the controller through the launch file
+
+<!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find pi_robot_pkg)/config/pirobot_control.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/pi_robot" args="x1_controller x2_controller left_shoulder_forward_joint_position_controller joint_state_controller"/>
+
+
+
+ERROR that might happen:
+1) Could not switch controllers, due to resource conflict: Thi si when you assigned the same joint to different controllers.
+    

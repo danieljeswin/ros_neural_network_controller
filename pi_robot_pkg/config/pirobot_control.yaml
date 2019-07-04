@@ -1,0 +1,55 @@
+pi_robot:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # Position Controllers ---------------------------------------
+  # head_pan_joint_position_controller:
+  #   type: effort_controllers/JointPositionController
+  #   joint: head_pan_joint
+  #   pid: {p: 100.0, i: 0.01, d: 10.0}
+  head_pan_joint_position_controller:
+    type: my_controller/MyPositionController
+    joint: head_pan_joint
+    gain: 0.1
+  head_tilt_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: head_tilt_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  torso_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: torso_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  left_shoulder_forward_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_shoulder_forward_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  right_shoulder_forward_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_shoulder_forward_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  left_shoulder_up_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_shoulder_up_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  right_shoulder_up_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_shoulder_up_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  left_elbow_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_elbow_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  right_elbow_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_elbow_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  left_wrist_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: left_wrist_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  right_wrist_joint_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: right_wrist_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
